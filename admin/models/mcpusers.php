@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverModelMcpusers extends JModelList
+class SamcpserverModelMcpusers extends JModelList
 {
     public function __construct($config = array())
     {
@@ -42,7 +42,7 @@ class McpserverModelMcpusers extends JModelList
             'a.note', 'a.created', 'a.last_used',
             'u.name AS user_name', 'u.username AS user_username', 'u.email AS user_email',
         ))
-        ->from($db->quoteName('#__mcpserver_users', 'a'))
+        ->from($db->quoteName('#__samcpserver_users', 'a'))
         ->leftJoin($db->quoteName('#__users', 'u') . ' ON u.id = a.joomla_user_id');
 
         // Filtro búsqueda

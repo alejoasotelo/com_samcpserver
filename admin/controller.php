@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverController extends JControllerLegacy
+class SamcpserverController extends JControllerLegacy
 {
     protected $default_view = 'mcpusers';
 

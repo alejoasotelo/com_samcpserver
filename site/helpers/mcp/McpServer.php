@@ -1,17 +1,17 @@
 <?php
 defined('_JEXEC') or die;
 
-JLoader::register('McpserverToolArticles', JPATH_SITE . '/components/com_mcpserver/helpers/mcp/tools/ArticlesTool.php');
-JLoader::register('McpserverToolCache',    JPATH_SITE . '/components/com_mcpserver/helpers/mcp/tools/CacheTool.php');
-JLoader::register('McpserverToolMenus',    JPATH_SITE . '/components/com_mcpserver/helpers/mcp/tools/MenusTool.php');
+JLoader::register('SamcpserverToolArticles', JPATH_SITE . '/components/com_samcpserver/helpers/mcp/tools/ArticlesTool.php');
+JLoader::register('SamcpserverToolCache',    JPATH_SITE . '/components/com_samcpserver/helpers/mcp/tools/CacheTool.php');
+JLoader::register('SamcpserverToolMenus',    JPATH_SITE . '/components/com_samcpserver/helpers/mcp/tools/MenusTool.php');
 
-class McpserverMcpServer
+class SamcpserverMcpServer
 {
     const MCP_VERSION        = '2024-11-05';
     const SERVER_NAME        = 'joomla-mcp-server';
     const SERVER_VERSION     = '1.3.0';
 
-    /** @var object Usuario MCP (registro de #__mcpserver_users) */
+    /** @var object Usuario MCP (registro de #__samcpserver_users) */
     private $mcpUser;
 
     /** @var array Tools registradas */
@@ -26,9 +26,9 @@ class McpserverMcpServer
     private function registerTools()
     {
         $tools = [
-            new McpserverToolArticles($this->mcpUser),
-            new McpserverToolCache($this->mcpUser),
-            new McpserverToolMenus($this->mcpUser),
+            new SamcpserverToolArticles($this->mcpUser),
+            new SamcpserverToolCache($this->mcpUser),
+            new SamcpserverToolMenus($this->mcpUser),
         ];
 
         foreach ($tools as $toolInstance)

@@ -1,9 +1,9 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverControllerMcpusers extends JControllerAdmin
+class SamcpserverControllerMcpusers extends JControllerAdmin
 {
-    public function getModel($name = 'Mcpuser', $prefix = 'McpserverModel', $config = array('ignore_request' => true))
+    public function getModel($name = 'Mcpuser', $prefix = 'SamcpserverModel', $config = array('ignore_request' => true))
     {
         return parent::getModel($name, $prefix, $config);
     }

@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverToolArticles
+class SamcpserverToolArticles
 {
     private $mcpUser;
 

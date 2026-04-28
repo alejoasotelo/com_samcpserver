@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverViewMcpuser extends JViewLegacy
+class SamcpserverViewMcpuser extends JViewLegacy
 {
     protected $form;
     protected $item;
@@ -19,7 +19,6 @@ class McpserverViewMcpuser extends JViewLegacy
         }
 
         $this->addToolbar();
-
         parent::display($tpl);
     }
 
@@ -28,15 +27,27 @@ class McpserverViewMcpuser extends JViewLegacy
         JFactory::getApplication()->input->set('hidemainmenu', true);
 
         $isNew = ($this->item->id == 0);
+        $isJ4  = version_compare(JVERSION, '4.0.0', '>=');
 
         JToolBarHelper::title(
-            $isNew ? JText::_('COM_MCPSERVER_MCPUSER_TITLE_ADD') : JText::_('COM_MCPSERVER_MCPUSER_TITLE_EDIT'),
+            $isNew ? JText::_('COM_SAMCPSERVER_MCPUSER_TITLE_ADD') : JText::_('COM_SAMCPSERVER_MCPUSER_TITLE_EDIT'),
             'user'
         );
 
-        JToolBarHelper::apply('mcpuser.apply');
-        JToolBarHelper::save('mcpuser.save');
-        JToolBarHelper::divider();
-        JToolBarHelper::cancel('mcpuser.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        if ($isJ4)
+        {
+            $toolbar = JToolbar::getInstance();
+            $toolbar->apply('mcpuser.apply');
+            $toolbar->save('mcpuser.save');
+            $toolbar->divider();
+            $toolbar->cancel('mcpuser.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        }
+        else
+        {
+            JToolBarHelper::apply('mcpuser.apply');
+            JToolBarHelper::save('mcpuser.save');
+            JToolBarHelper::divider();
+            JToolBarHelper::cancel('mcpuser.cancel', $isNew ? 'JTOOLBAR_CANCEL' : 'JTOOLBAR_CLOSE');
+        }
     }
 }

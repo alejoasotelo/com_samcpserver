@@ -1,11 +1,11 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverModelMcpuser extends JModelAdmin
+class SamcpserverModelMcpuser extends JModelAdmin
 {
-    protected $text_prefix = 'COM_MCPSERVER';
+    protected $text_prefix = 'COM_SAMCPSERVER';
 
-    public function getTable($type = 'Mcpuser', $prefix = 'McpserverTable', $config = array())
+    public function getTable($type = 'Mcpuser', $prefix = 'SamcpserverTable', $config = array())
     {
         return JTable::getInstance($type, $prefix, $config);
     }
@@ -13,7 +13,7 @@ class McpserverModelMcpuser extends JModelAdmin
     public function getForm($data = array(), $loadData = true)
     {
         $form = $this->loadForm(
-            'com_mcpserver.mcpuser',
+            'com_samcpserver.mcpuser',
             'mcpuser',
             array('control' => 'jform', 'load_data' => $loadData)
         );
@@ -29,7 +29,7 @@ class McpserverModelMcpuser extends JModelAdmin
     protected function loadFormData()
     {
         $app  = JFactory::getApplication();
-        $data = $app->getUserState('com_mcpserver.edit.mcpuser.data', array());
+        $data = $app->getUserState('com_samcpserver.edit.mcpuser.data', array());
 
         if (empty($data))
         {
@@ -54,7 +54,7 @@ class McpserverModelMcpuser extends JModelAdmin
 
         if (!$table->load($id))
         {
-            $this->setError(JText::_('COM_MCPSERVER_ERROR_NOT_FOUND'));
+            $this->setError(JText::_('COM_SAMCPSERVER_ERROR_NOT_FOUND'));
             return false;
         }
 
@@ -75,6 +75,6 @@ class McpserverModelMcpuser extends JModelAdmin
     public static function getMcpUrl($token)
     {
         $uri = JUri::root();
-        return rtrim($uri, '/') . '/index.php?option=com_mcpserver&task=mcp&token=' . $token;
+        return rtrim($uri, '/') . '/index.php?option=com_samcpserver&task=mcp&token=' . $token;
     }
 }

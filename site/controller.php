@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverController extends JControllerLegacy
+class SamcpserverController extends JControllerLegacy
 {
     public function mcp()
     {
@@ -14,7 +14,7 @@ class McpserverController extends JControllerLegacy
         $db    = JFactory::getDbo();
         $query = $db->getQuery(true)
             ->select('*')
-            ->from($db->quoteName('#__mcpserver_users'))
+            ->from($db->quoteName('#__samcpserver_users'))
             ->where($db->quoteName('token')   . ' = ' . $db->quote($token))
             ->where($db->quoteName('enabled') . ' = 1');
 
@@ -32,16 +32,16 @@ class McpserverController extends JControllerLegacy
         // Actualizar last_used
         $db->setQuery(
             $db->getQuery(true)
-                ->update($db->quoteName('#__mcpserver_users'))
+                ->update($db->quoteName('#__samcpserver_users'))
                 ->set($db->quoteName('last_used') . ' = ' . $db->quote(JFactory::getDate()->toSql()))
                 ->where($db->quoteName('id') . ' = ' . (int) $mcpUser->id)
         );
         $db->execute();
 
         // Despachar al servidor MCP
-        JLoader::register('McpserverMcpServer', JPATH_SITE . '/components/com_mcpserver/helpers/mcp/McpServer.php');
+        JLoader::register('SamcpserverMcpServer', JPATH_SITE . '/components/com_samcpserver/helpers/mcp/McpServer.php');
 
-        $server = new McpserverMcpServer($mcpUser);
+        $server = new SamcpserverMcpServer($mcpUser);
         $server->handle();
 
         jexit();

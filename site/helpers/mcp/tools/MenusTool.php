@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverToolMenus
+class SamcpserverToolMenus
 {
     private $mcpUser;
 

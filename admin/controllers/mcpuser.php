@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverControllerMcpuser extends JControllerForm
+class SamcpserverControllerMcpuser extends JControllerForm
 {
     protected $view_list = 'mcpusers';
     protected $view_item = 'mcpuser';
@@ -18,22 +18,22 @@ class McpserverControllerMcpuser extends JControllerForm
 
         if (!$id)
         {
-            $app->redirect(JRoute::_('index.php?option=com_mcpserver&view=mcpusers', false));
+            $app->redirect(JRoute::_('index.php?option=com_samcpserver&view=mcpusers', false));
             return;
         }
 
-        /** @var McpserverModelMcpuser $model */
-        $model = $this->getModel('Mcpuser', 'McpserverModel');
+        /** @var SamcpserverModelMcpuser $model */
+        $model = $this->getModel('Mcpuser', 'SamcpserverModel');
 
         if ($model->regenerateToken($id))
         {
-            $app->enqueueMessage(JText::_('COM_MCPSERVER_TOKEN_REGENERATED'), 'success');
+            $app->enqueueMessage(JText::_('COM_SAMCPSERVER_TOKEN_REGENERATED'), 'success');
         }
         else
         {
             $app->enqueueMessage($model->getError(), 'error');
         }
 
-        $app->redirect(JRoute::_('index.php?option=com_mcpserver&view=mcpuser&layout=edit&id=' . $id, false));
+        $app->redirect(JRoute::_('index.php?option=com_samcpserver&view=mcpuser&layout=edit&id=' . $id, false));
     }
 }

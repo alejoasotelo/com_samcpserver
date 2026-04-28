@@ -1,7 +1,7 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverViewMcpusers extends JViewLegacy
+class SamcpserverViewMcpusers extends JViewLegacy
 {
     protected $items;
     protected $pagination;
@@ -13,20 +13,20 @@ class McpserverViewMcpusers extends JViewLegacy
         $this->pagination = $this->get('Pagination');
         $this->state      = $this->get('State');
 
-        // Errores
         if (count($errors = $this->get('Errors')))
         {
             throw new Exception(implode("\n", $errors), 500);
         }
 
         $this->addToolbar();
-
         parent::display($tpl);
     }
 
     protected function addToolbar()
     {
-        JToolBarHelper::title(JText::_('COM_MCPSERVER_MCPUSERS_TITLE'), 'users');
+        $isJ4 = version_compare(JVERSION, '4.0.0', '>=');
+
+        JToolBarHelper::title(JText::_('COM_SAMCPSERVER_MCPUSERS_TITLE'), 'users');
         JToolBarHelper::addNew('mcpuser.add');
         JToolBarHelper::editList('mcpuser.edit');
         JToolBarHelper::divider();

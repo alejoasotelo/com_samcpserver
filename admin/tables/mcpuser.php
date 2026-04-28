@@ -1,11 +1,11 @@
 <?php
 defined('_JEXEC') or die;
 
-class McpserverTableMcpuser extends JTable
+class SamcpserverTableMcpuser extends JTable
 {
     public function __construct(&$db)
     {
-        parent::__construct('#__mcpserver_users', 'id', $db);
+        parent::__construct('#__samcpserver_users', 'id', $db);
     }
 
     public function check()
@@ -24,7 +24,7 @@ class McpserverTableMcpuser extends JTable
         $db    = $this->getDbo();
         $query = $db->getQuery(true)
             ->select('id')
-            ->from($db->quoteName('#__mcpserver_users'))
+            ->from($db->quoteName('#__samcpserver_users'))
             ->where($db->quoteName('joomla_user_id') . ' = ' . (int) $this->joomla_user_id);
 
         if ($this->id)
@@ -37,7 +37,7 @@ class McpserverTableMcpuser extends JTable
 
         if ($existing)
         {
-            $this->setError(JText::_('COM_MCPSERVER_ERROR_USER_EXISTS'));
+            $this->setError(JText::_('COM_SAMCPSERVER_ERROR_USER_EXISTS'));
             return false;
         }
 

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `#__mcpserver_users` (
+CREATE TABLE IF NOT EXISTS `#__samcpserver_users` (
     `id`             INT(11) UNSIGNED NOT NULL AUTO_INCREMENT,
     `joomla_user_id` INT(11) UNSIGNED NOT NULL,
     `token`          VARCHAR(64)      NOT NULL,
