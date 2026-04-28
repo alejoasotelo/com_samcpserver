@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<form>
+    <fieldset name="details">
+
+        <field
+            name="id"
+            type="hidden"
+        />
+
+        <field
+            name="joomla_user_id"
+            type="user"
+            label="COM_MCPSERVER_FIELD_USER_LABEL"
+            description="COM_MCPSERVER_FIELD_USER_DESC"
+            required="true"
+            filter="int"
+        />
+
+        <field
+            name="note"
+            type="text"
+            label="COM_MCPSERVER_FIELD_NOTE_LABEL"
+            description="COM_MCPSERVER_FIELD_NOTE_DESC"
+            maxlength="255"
+            filter="string"
+        />
+
+        <field
+            name="enabled"
+            type="radio"
+            label="COM_MCPSERVER_FIELD_ENABLED_LABEL"
+            class="btn-group btn-group-yesno"
+            default="1"
+            filter="int"
+        >
+            <option value="1">JYES</option>
+            <option value="0">JNO</option>
+        </field>
+
+        <field
+            name="token"
+            type="text"
+            label="COM_MCPSERVER_FIELD_TOKEN_LABEL"
+            description="COM_MCPSERVER_FIELD_TOKEN_DESC"
+            readonly="true"
+            class="input-xxlarge"
+            filter="string"
+        />
+
+    </fieldset>
+</form>
