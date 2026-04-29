@@ -2,7 +2,7 @@
 
 Componente open source para Joomla 3 y 4 que implementa el protocolo MCP (Model Context Protocol) y permite que asistentes de inteligencia artificial como Claude gestionen el contenido de tu sitio directamente desde una conversacion de chat.
 
-Para una descripcion completa del proyecto, casos de uso y screenshots, lee el articulo oficial:
+Para una descripcion completa del proyecto, casos de uso, lee el articulo oficial:
 **[SA MCP Server para Joomla: controla tu sitio con inteligencia artificial](https://alejosotelo.com.ar/portal/blog/312-sa-mcp-server-para-joomla.html)**
 
 ## Que es el protocolo MCP
