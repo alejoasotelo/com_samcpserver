@@ -84,6 +84,18 @@ class SamcpserverMcpServer
                 $this->handleToolsList($id);
                 break;
 
+            case 'prompts/list':
+                $this->handlePromptsList($id);
+                break;
+
+            case 'resources/list':
+                $this->handleResourcesList($id);
+                break;
+
+            case 'resources/templates/list':
+                $this->handleResourceTemplatesList($id);
+                break;
+
             case 'tools/call':
                 $this->handleToolsCall($id, $params);
                 break;
@@ -126,6 +138,21 @@ class SamcpserverMcpServer
         }
 
         $this->sendResult($id, ['tools' => $tools]);
+    }
+
+    private function handlePromptsList($id)
+    {
+        $this->sendResult($id, ['prompts' => []]);
+    }
+
+    private function handleResourcesList($id)
+    {
+        $this->sendResult($id, ['resources' => []]);
+    }
+
+    private function handleResourceTemplatesList($id)
+    {
+        $this->sendResult($id, ['resourceTemplates' => []]);
     }
 
     private function handleToolsCall($id, $params)

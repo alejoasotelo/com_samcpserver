@@ -19,7 +19,7 @@ class SamcpserverToolMenus
                 'handler'     => 'menusList',
                 'inputSchema' => [
                     'type'       => 'object',
-                    'properties' => [],
+                    'properties' => new stdClass(),
                     'required'   => [],
                 ],
             ],
