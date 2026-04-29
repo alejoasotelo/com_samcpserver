@@ -1,0 +1,54 @@
+name: PHP tests
+on: 
+  push:
+    branches:
+      - '**'  # Se ejecuta en todas las ramas
+    tags-ignore:
+      - '**'  # Pero NO en tags (los maneja release.yml)
+  pull_request:
+  workflow_call:
+concurrency:
+  group: php-tests-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  # Check there is no syntax errors in the project
+  php-linter:
+    name: PHP Syntax check 7.4 => 8.3
+    runs-on: ubuntu-latest
+    env:
+      FOLDER_TO_EXCLUDE: >-
+        ! -path "./vendor/*"
+        ! -path "./component/admin/vendor/*"
+        ! -path "./component/admin/libraries/*"
+        ! -path "./component/site/vendor/*"
+        ! -path "./admin/vendor/*"
+        ! -path "./admin/libraries/*"
+        ! -path "./site/vendor/*"
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.0.0
+
+      - name: PHP syntax checker 7.4
+        uses: prestashop/github-action-php-lint/7.4@master
+        with:
+          working-directory: ./component
+          folder-to-exclude: ${{ env.FOLDER_TO_EXCLUDE }}
+
+      - name: PHP syntax checker 8.0
+        uses: prestashop/github-action-php-lint/8.0@master
+        with:
+          working-directory: ./component
+          folder-to-exclude: ${{ env.FOLDER_TO_EXCLUDE }}
+
+      - name: PHP syntax checker 8.1
+        uses: prestashop/github-action-php-lint/8.1@master
+        with:
+          working-directory: ./component
+          folder-to-exclude: ${{ env.FOLDER_TO_EXCLUDE }}
+
+      - name: PHP syntax checker 8.3
+        uses: prestashop/github-action-php-lint/8.3@master
+        with:
+          working-directory: ./component
+          folder-to-exclude: ${{ env.FOLDER_TO_EXCLUDE }}

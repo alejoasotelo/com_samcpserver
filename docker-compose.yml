@@ -1,0 +1,127 @@
+name: com_samcpserver
+services:
+  # joomla_php8:
+  #   image: joomla:3.10.11
+  #   restart: always
+  #   links:
+  #     - mysql:mysql
+  #   depends_on:
+  #     - mysql
+  #   ports:
+  #     - 80:80
+  #   expose:
+  #     - 9000
+  #   environment:
+  #     JOOMLA_DB_HOST: mysql
+  #     JOOMLA_DB_NAME: ${JOOMLA_DB_NAME}
+  #     JOOMLA_DB_USER: ${JOOMLA_DB_USER}
+  #     JOOMLA_DB_PASSWORD: ${JOOMLA_DB_PASSWORD}
+  #   volumes:
+  #     - ./config-files/php.ini:/usr/local/etc/php/conf.d/zphp.ini
+  #     - ./build/update-component.php:/var/www/html/cli/update-component.php
+  #     - ./build/UpdateComponentAdapter.php:/var/www/html/cli/UpdateComponentAdapter.php
+  #     - ./component/admin:/var/www/html/administrator/components/com_samcpserver
+  #     - ./component/samcpserver.xml:/var/www/html/administrator/components/com_samcpserver/samcpserver.xml
+  #     - ./component/site:/var/www/html/components/com_samcpserver
+  #     - ./component/media:/var/www/html/media/com_samcpserver
+  #     - ./plugin/plg_system_salibrarydompdf:/var/www/html/plugins/system/salibrarydompdf
+  #     # - ./api:/var/www/html/api
+  #     - joomla3_files:/var/www/html
+  #   extra_hosts:
+  #    - host.docker.internal:host-gateway
+
+  # mysql:
+  #   image: mysql:5.7
+  #   restart: always
+  #   ports:
+  #     - 3306:3306
+  #   environment:
+  #     - MYSQL_DATABASE=${JOOMLA_DB_NAME}
+  #     - MYSQL_USER=${JOOMLA_DB_USER}
+  #     - MYSQL_PASSWORD=${JOOMLA_DB_PASSWORD}
+  #     - MYSQL_ROOT_PASSWORD=${JOOMLA_DB_PASSWORD}
+  #   volumes:
+  #     - ./sql:/docker-entrypoint-initdb.d
+  #     - com_samcpserver_db:/var/lib/mysql
+
+  # phpmyadmin:
+  #   image: phpmyadmin/phpmyadmin
+  #   links:
+  #     - mysql
+  #   ports:
+  #     - 81:80
+  #   environment:
+  #     - PMA_HOST=mysql
+  #     - PMA_USER=${JOOMLA_DB_USER}
+  #     - PMA_PASSWORD=${JOOMLA_DB_PASSWORD}
+
+  joomla4:
+    build:
+      dockerfile: J4.Dockerfile
+    depends_on:
+      mysql4:
+        condition: service_healthy
+    ports:
+      - 80:80
+    expose:
+      - 9000
+    environment:
+      JOOMLA_DB_HOST: mysql4
+      JOOMLA_DB_NAME: ${JOOMLA_DB_NAME}
+      JOOMLA_DB_USER: ${JOOMLA_DB_USER}
+      JOOMLA_DB_PASSWORD: ${JOOMLA_DB_PASSWORD}
+    volumes:
+      - ./config-files/j4-php.ini:/usr/local/etc/php/conf.d/z-php.ini
+      - ./component/admin:/var/www/html/administrator/components/com_samcpserver
+      - ./component/samcpserver.xml:/var/www/html/administrator/components/com_samcpserver/samcpserver.xml
+      - ./component/site:/var/www/html/components/com_samcpserver
+      - ./component/api:/var/www/html/api/components/com_samcpserver
+      - ./component/media:/var/www/html/media/com_samcpserver
+      - ./dist:/var/www/html/dist
+      - joomla4_files:/var/www/html
+    extra_hosts:
+     - host.docker.internal:host-gateway
+    networks:
+      - samcpserver_net
+
+  mysql4:
+    image: mysql:5.7
+    ports:
+      - 3307:3306
+    environment:
+      - MYSQL_DATABASE=${JOOMLA_DB_NAME}
+      - MYSQL_USER=${JOOMLA_DB_USER}
+      - MYSQL_PASSWORD=${JOOMLA_DB_PASSWORD}
+      - MYSQL_ROOT_PASSWORD=${JOOMLA_DB_PASSWORD}
+    volumes:
+      - ./sql:/docker-entrypoint-initdb.d
+      - samcpserver4_db:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-p${JOOMLA_DB_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    networks:
+      - samcpserver_net
+
+  phpmyadmin4:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - 82:80
+    environment:
+      - PMA_HOST=mysql4
+      - PMA_USER=${JOOMLA_DB_USER}
+      - PMA_PASSWORD=${JOOMLA_DB_PASSWORD}
+    networks:
+      - samcpserver_net
+
+volumes:
+  com_samcpserver_db:
+  joomla3_files:
+  samcpserver4_db:
+  joomla4_files:
+
+networks:
+  samcpserver_net:
+    driver: bridge
