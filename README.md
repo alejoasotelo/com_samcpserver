@@ -1,6 +1,37 @@
 # SA MCP Server para Joomla
 
-Componente Joomla para exponer un endpoint MCP (Model Context Protocol) via HTTP y permitir que asistentes de IA operen sobre tu sitio Joomla (tools del componente).
+Componente open source para Joomla 3 y 4 que implementa el protocolo MCP (Model Context Protocol) y permite que asistentes de inteligencia artificial como Claude gestionen el contenido de tu sitio directamente desde una conversacion de chat.
+
+Para una descripcion completa del proyecto, casos de uso y screenshots, lee el articulo oficial:
+**[SA MCP Server para Joomla: controla tu sitio con inteligencia artificial](https://alejosotelo.com.ar/portal/blog/312-sa-mcp-server-para-joomla.html)**
+
+## Que es el protocolo MCP
+
+El Model Context Protocol (MCP) es un estandar abierto creado por Anthropic que permite a los asistentes de inteligencia artificial conectarse con herramientas y servicios externos de forma estructurada. En lugar de copiar y pegar contenido entre ventanas, la IA puede consultar y modificar datos directamente, con tu autorizacion.
+
+SA MCP Server hace exactamente eso, pero para tu sitio Joomla. Si ya usas Claude Desktop, funciona igual que los conectores de Google Drive o Gmail, pero gestionando tus articulos y menus.
+
+## Tools disponibles
+
+La version actual incluye las siguientes herramientas:
+
+### Articulos (`com_content`)
+- `articles_list` — lista articulos con filtros por categoria, estado, busqueda y paginacion
+- `articles_get` — detalle completo de un articulo por ID
+- `articles_create` — crea un articulo nuevo con titulo, contenido HTML, categoria, alias SEF, idioma y metadescripcion
+- `articles_update` — actualiza campos especificos de un articulo existente (parcial)
+- `articles_delete` — envia a papelera o elimina definitivamente
+
+### Menus
+- `menus_list` — lista todos los menus del sitio con conteo de items
+- `menu_items_list` — lista items de un menu con filtros
+- `menu_items_get` — detalle de un item por ID
+- `menu_items_create` — crea un nuevo item de menu
+- `menu_items_update` — actualiza un item existente
+- `menu_items_delete` — envia a papelera o elimina definitivamente
+
+### Cache
+- `cache_clean` — limpia la cache de Joomla (todos los grupos o uno especifico)
 
 ## Requisitos
 
