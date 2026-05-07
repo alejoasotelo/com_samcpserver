@@ -1,7 +1,7 @@
--- 1.4.2: Repara articulos sin workflow association en Joomla 4.
--- Los articulos creados via MCP antes de 1.4.2 no tenian fila en #__workflow_associations
--- y por eso no aparecian en el administrador de articulos.
--- Nota: en Joomla 4, #__workflows almacena extension = 'com_content' (sin '.article').
+-- 1.4.3: Corrección de bug en 1.4.2 donde se usaba w.extension = 'com_content.article'
+-- en lugar de 'com_content' al consultar #__workflows.
+-- Este script repara artículos que quedaron sin workflow association en instalaciones
+-- que ya ejecutaron 1.4.2 con el valor de extensión incorrecto.
 
 INSERT INTO `#__workflow_associations` (`item_id`, `stage_id`, `extension`)
 SELECT
