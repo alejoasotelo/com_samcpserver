@@ -33,26 +33,20 @@ class SamcpserverToolCache
 
     public function clean($args)
     {
-        $group = isset($args['group']) ? trim($args['group']) : null;
+        $group  = isset($args['group']) ? trim($args['group']) : null;
+        $config = JFactory::getConfig();
 
-        $config  = JFactory::getConfig();
-        $options = [
-            'defaultgroup' => $group ?: '',
-            'cachebase'    => $config->get('cache_path', JPATH_SITE . '/cache'),
-            'lifetime'     => $config->get('cachetime', 15),
-            'language'     => $config->get('language', 'en-GB'),
-            'storage'      => $config->get('cache_handler', 'file'),
-            'locking'      => true,
-            'locktime'     => 10,
-            'checkTime'    => true,
-            'caching'      => true,
-        ];
+        $cachePaths = array_unique([
+            $config->get('cache_path', JPATH_SITE . '/cache'),
+            JPATH_ADMINISTRATOR . '/cache',
+        ]);
 
         if ($group)
         {
-            // Limpiar grupo específico
-            $cache = JCache::getInstance('callback', $options);
-            $cache->clean($group);
+            foreach ($cachePaths as $cachePath)
+            {
+                $this->cleanGroupInPath($group, $cachePath, $config);
+            }
 
             return [
                 'success' => true,
@@ -61,38 +55,74 @@ class SamcpserverToolCache
             ];
         }
 
-        // Limpiar toda la caché — iterar grupos conocidos + purge general
+        // Limpiar toda la caché en ambas rutas (site + admin)
         $cleaned = [];
-        $groups  = [
+        $known   = [
             'com_content', 'com_menus', 'com_modules', 'com_plugins',
             'com_categories', 'com_tags', 'com_users', 'com_config',
             '_system', 'mod_menu', 'page',
         ];
 
-        foreach ($groups as $g)
+        foreach ($cachePaths as $cachePath)
         {
+            if (!is_dir($cachePath))
+            {
+                continue;
+            }
+
+            // Detectar grupos reales en el directorio de caché
+            $dirs   = glob($cachePath . '/*', GLOB_ONLYDIR) ?: [];
+            $groups = array_unique(array_merge($known, array_map('basename', $dirs)));
+
+            foreach ($groups as $g)
+            {
+                try
+                {
+                    $this->cleanGroupInPath($g, $cachePath, $config);
+                    $cleaned[] = $g . ' (' . basename($cachePath) . ')';
+                }
+                catch (Exception $e)
+                {
+                    // ignorar grupos que no existen
+                }
+            }
+
+            // GC general del directorio
             try
             {
-                $options['defaultgroup'] = $g;
-                $cache = JCache::getInstance('callback', $options);
-                $cache->clean($g);
-                $cleaned[] = $g;
+                $options = $this->buildCacheOptions('', $cachePath, $config);
+                $cache   = JCache::getInstance('callback', $options);
+                $cache->gc();
             }
-            catch (Exception $e)
-            {
-                // ignorar grupos que no existen
-            }
+            catch (Exception $e) {}
         }
-
-        // Purge general del directorio de caché
-        $options['defaultgroup'] = '';
-        $cache = JCache::getInstance('callback', $options);
-        $cache->gc();
 
         return [
             'success'        => true,
             'message'        => 'Caché limpiada correctamente.',
             'groups_cleaned' => $cleaned,
+        ];
+    }
+
+    private function cleanGroupInPath($group, $cachePath, $config)
+    {
+        $options = $this->buildCacheOptions($group, $cachePath, $config);
+        $cache   = JCache::getInstance('callback', $options);
+        $cache->clean($group);
+    }
+
+    private function buildCacheOptions($group, $cachePath, $config)
+    {
+        return [
+            'defaultgroup' => $group,
+            'cachebase'    => $cachePath,
+            'lifetime'     => $config->get('cachetime', 15),
+            'language'     => $config->get('language', 'en-GB'),
+            'storage'      => $config->get('cache_handler', 'file'),
+            'locking'      => true,
+            'locktime'     => 10,
+            'checkTime'    => true,
+            'caching'      => true,
         ];
     }
 }

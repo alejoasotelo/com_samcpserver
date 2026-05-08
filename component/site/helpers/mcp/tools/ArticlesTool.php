@@ -544,7 +544,9 @@ class SamcpserverToolArticles
                 ->select('ws.id')
                 ->from($db->quoteName('#__workflow_stages', 'ws'))
                 ->innerJoin($db->quoteName('#__workflows', 'w') . ' ON w.id = ws.workflow_id')
-                ->where('w.extension = ' . $db->quote('com_content.article'))
+                ->where('w.extension = ' . $db->quote('com_content'))
+                ->where('w.published = 1')
+                ->where('ws.published = 1')
                 ->order('ws.default DESC')
                 ->order('ws.ordering ASC')
                 ->order('ws.id ASC');
